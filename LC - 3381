@@ -1,0 +1,88 @@
+3381. Maximum Subarray With Equal Products
+
+Topic: Arrays, Math (GCD & LCM)
+Difficulty: Medium
+
+Problem Statement
+
+You are given an array of integers nums.
+
+Your task is to find the maximum length of a contiguous subarray such that:
+
+product of all elements = gcd of subarray × lcm of subarray
+
+Return the length of the longest such subarray.
+
+Example 1
+Input:
+nums = [2, 3, 4, 6]
+
+Output:
+2
+
+Explanation:
+
+Subarray [2, 3]
+Product = 6, GCD = 1, LCM = 6 → 1 × 6 = 6 (Right)
+
+Subarray [3, 4]
+Product = 12, GCD = 1, LCM = 12 → 1 × 12 = 12 (Right)
+
+Subarray [2, 3, 4]
+Product = 24, GCD = 1, LCM = 12 → 1 × 12 = 12 (Wrong)
+
+Maximum valid subarray length = 2
+
+Example 2
+Input:
+nums = [1, 2, 1, 2]
+
+Output:
+2
+
+Explanation:
+
+Subarrays like [1, 2] satisfy the condition
+
+Larger subarrays do not satisfy the condition
+
+
+
+
+
+Code: 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    long long maxSubarraySum(vector<int>& nums, int k) {
+        
+        int n = nums.size();
+        vector<long long> prefix(n + 1, 0);
+
+        // Step 1: Prefix Sum
+        for(int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + nums[i];
+        }
+
+        // Step 2: Store minimum prefix for each remainder
+        vector<long long> minPrefix(k, LLONG_MAX);
+        long long ans = LLONG_MIN;
+
+        for(int i = 0; i <= n; i++) {
+            int rem = i % k;
+
+            if(minPrefix[rem] != LLONG_MAX) {
+                ans = max(ans, prefix[i] - minPrefix[rem]);
+            }
+
+            minPrefix[rem] = min(minPrefix[rem], prefix[i]);
+        }
+
+        return ans;
+    }
+};
+
+Maximum valid subarray length = 2
