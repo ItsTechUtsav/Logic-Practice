@@ -1,0 +1,85 @@
+
+Problem Statement
+
+You are given an array of intervals where each interval is represented as [start, end].
+
+Your task is to merge all overlapping intervals and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+Example 1
+Input:
+intervals = [[1,3],[2,6],[8,10],[15,18]]
+
+Output:
+[[1,6],[8,10],[15,18]]
+
+Explanation:
+
+Intervals [1,3] and [2,6] overlap, so they are merged into [1,6]
+
+Other intervals do not overlap
+
+Example 2
+Input:
+intervals = [[1,4],[4,5]]
+
+Output:
+[[1,5]]
+
+Explanation:
+
+Intervals [1,4] and [4,5] are considered overlapping
+
+
+
+
+
+Code:
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+
+        // Step 1: sort intervals based on starting time
+        sort(intervals.begin(), intervals.end());
+
+        vector<vector<int>> result;
+
+        // Step 2: first interval add karo
+        result.push_back(intervals[0]);
+
+        // Step 3: baaki intervals check karo
+        for(int i = 1; i < intervals.size(); i++) {
+
+            // last interval in result
+            vector<int>& last = result.back();
+
+            // overlap condition
+            if(intervals[i][0] <= last[1]) {
+                // merge → update end
+                last[1] = max(last[1], intervals[i][1]);
+            }
+            else {
+                // no overlap → add new interval
+                result.push_back(intervals[i]);
+            }
+        }
+
+        return result;
+    }
+};
+
+
+
+Complexity
+
+Time: O(n log n) (sorting ki wajah se)
+
+Space: O(n)
+
+
+
+They are merged into [1,5]
