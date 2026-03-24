@@ -1,0 +1,62 @@
+Problem Statement
+
+You are given a string s.
+
+Find the length of the longest substring without repeating characters.
+
+A substring is a continuous sequence of characters within the string.
+
+Example 1
+Input:
+s = "abcabcbb"
+
+Output:
+3
+
+Explanation:
+Longest substring without repeating characters is "abc"
+Length = 3
+
+Example 2
+Input:
+s = "bbbbb"
+
+Output:
+1
+
+Explanation:
+Only "b" is valid
+Length = 1
+
+
+
+Code:
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+
+        unordered_set<char> st;
+        int left = 0, right = 0;
+        int maxLength = 0;
+
+        while(right < s.size()) {
+
+            // agar duplicate nahi hai
+            if(st.find(s[right]) == st.end()) {
+                st.insert(s[right]);
+                maxLength = max(maxLength, right - left + 1);
+                right++;
+            }
+            else {
+                // duplicate remove karo
+                st.erase(s[left]);
+                left++;
+            }
+        }
+
+        return maxLength;
+    }
+};
